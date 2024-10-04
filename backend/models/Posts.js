@@ -1,5 +1,6 @@
 import mongoose, { mongo } from "mongoose";
 
+//schema for post details
 const postSchema = new mongoose.Schema({
     owner : {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
     caption: {type: String, default: ""},
@@ -8,6 +9,7 @@ const postSchema = new mongoose.Schema({
     comments: [{type: mongoose.Schema.Types.ObjectId, ref: "Comment"}], 
 })
 
+//schema tomodel
 const Post = mongoose.model("Post", postSchema);
 
 export default Post;

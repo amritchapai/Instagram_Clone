@@ -3,7 +3,7 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 dotenv.config({})
 import connectDB from "./utils/db.js";
-import registerRouter from "./routers/routes.js";
+import router from "./routers/routes.js";
 
 
 //setting port from the environment variables
@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(urlencoded({ extended: true }));
-app.use(registerRouter)
+app.use(router)
 
 //to get 
 app.get("/",(req, res)=>{

@@ -85,7 +85,7 @@ export const login = async (req, res) => {
       .cookie("token", token, { httpOnly: true, sameSite: "strict" })
       .json({
         user,
-        message: "login successfull",
+        message: "login successful",
         success: true,
       });
   } catch (error) {
@@ -112,13 +112,14 @@ export const viewProfile = async (req, res) => {
     //get the id of user
     const userId = req.params.id;
     //get user by id
-    const user = User.findById(userId);
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(400).json({
         message: "Something went wrong",
         success: false,
       });
     }
+    // return res.status(201).send(user);
     return res.status(201).json({
       user,
       success: true,
@@ -127,3 +128,22 @@ export const viewProfile = async (req, res) => {
     console.log(error);
   }
 };
+
+//to edit the profile by profile owner
+export const editProfile = (req, res)=>{
+  //get the userid
+  const userId = req.id
+
+  //find the user for that id
+  const user = User.findById(userId);
+  //destructure the obtained details
+  const {username, DOB, gender} = req.body;
+  const profilePicture = req.file;
+  let cloudResponse;
+  if(!profilePicture)
+  {
+
+  }
+
+}
+

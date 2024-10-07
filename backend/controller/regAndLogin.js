@@ -67,7 +67,7 @@ export const login = async (req, res) => {
     //token banaako from jwt
     const token = jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: "1d"});
     //token lai cookie ma rakheko
-
+    console.log(token);
     //user ma password bahek userko sab details hunchha front end ma pathauna
     //password napathaune kinaki thaha hunu hudaina aru lai
     const user = {
@@ -94,9 +94,9 @@ export const login = async (req, res) => {
 };
 
 //logout process
-const logout = async (req, res) => {
+export const logout = async (req, res) => {
   try {
-    return res.cookie("token", "", { maxage: 0 }).json({
+    return res.cookie("token", "", { maxAge: 0 }).json({
       //deleting token ie replacing token with "" whose age is 0
       message: "logout successful",
       success: true,
@@ -130,20 +130,40 @@ export const viewProfile = async (req, res) => {
 };
 
 //to edit the profile by profile owner
-export const editProfile = (req, res)=>{
-  //get the userid
-  const userId = req.id
+export const editProfile = async (req, res)=>{
+  try {
+    //get the userId
+    const userId = req.id;
 
-  //find the user for that id
-  const user = User.findById(userId);
-  //destructure the obtained details
-  const {username, DOB, gender} = req.body;
-  const profilePicture = req.file;
-  let cloudResponse;
-  if(!profilePicture)
-  {
+    //find the user for that id
+    const user = await User.findById(userId);
+    //destructure the obtained details
+    const { username, DOB, gender } = req.body;
 
+    const profilePicture = req.file;
+    if(!profilePicture)
+    {
+        
+     }
+    const updatedUser = await User.updateOne(
+      {_id: userId},
+      {
+        $set: {
+          username: username,
+          DOB: DOB,
+          gender: gender,
+        },
+      }
+    );
+    return res.status(201).json({
+      message:"edit successful",
+      success: true,
+    })
+  } catch (error) {
+    console.log(error)
   }
+  
+
 
 }
 

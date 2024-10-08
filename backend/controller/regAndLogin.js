@@ -183,3 +183,30 @@ export const editProfile = async (req, res)=>{
 
 }
 
+//to get suggested user 
+export const suggestedUser = async(req, res)=>{
+  try {
+    const userId = req.id;
+    //finding all other user except the user who is login and store all details except password
+    const users = await User.find({
+      _id: { $ne: userId }
+    }).select("-password");
+    //if array is empty then first item is not there 
+    if (users[0] == null) {
+      return res.status(400).json({
+        message: "there are no suggested users to show",
+        success: false,
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      users
+    });
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+//follow and unfollow
+

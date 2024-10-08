@@ -10,7 +10,7 @@ const authentication = async (req, res, next) =>{
             success: false,
         })
     }
-    //lets get userid from token which we have stored gives decodedId as id if it is valid
+    //decoded gets paylod from token which we have stored which has userid
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
     if(!decoded){

@@ -1,6 +1,8 @@
 import User from "../models/userDetails.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import getDataURI from "../utils/dataUri.js";
+import cloudinary from "../utils/cloudinary.js";
 
 //function to register
 export const register = async (req, res) => {
@@ -137,28 +139,42 @@ export const editProfile = async (req, res)=>{
 
     //find the user for that id
     const user = await User.findById(userId);
+    if(!user){
+      return res.status(404).json({
+        message: "user not found",
+        success: false,
+      })
+    }
     //destructure the obtained details
     const { username, DOB, gender } = req.body;
-
+    //get file
     const profilePicture = req.file;
-    if(!profilePicture)
-    {
-        
+    let cloudResponse
+    if(profilePicture)
+    {   
+        //convert to base64- encoded string
+        const fileURI = getDataURI(profilePicture);
+        //upload that string to cloudinary
+        cloudResponse = await cloudinary.uploader.upload(fileURI);
+        if(cloudResponse && cloudResponse.secure_url){
+          user.profilePicture = cloudResponse.secure_url;
+        }
      }
-    const updatedUser = await User.updateOne(
-      {_id: userId},
-      {
-        $set: {
-          username: username,
-          DOB: DOB,
-          gender: gender,
-        },
-      }
-    );
-    return res.status(201).json({
-      message:"edit successful",
+     if(username){
+        user.username = username
+     }
+     if(DOB){
+      user.DOB = DOB
+     }
+     if(gender){
+      user.gender = gender
+     }
+     await user.save();
+     return res.status(200).json({
+      message : "profile updated",
       success: true,
-    })
+      user
+     })
   } catch (error) {
     console.log(error)
   }

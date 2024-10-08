@@ -209,4 +209,51 @@ export const suggestedUser = async(req, res)=>{
 
 
 //follow and unfollow
+export const followUnfollow = async(req, res) =>{
+ try {
+   //userId who follows ie account owner
+   whoFollowsId = req.id;
+   //userId who is followed by the account owner
+   whoIsFollowedId = req.params.id;
+   if(whoFollowsId === whoIsFollowedId){
+    return res.status(401).json({
+      message: "Can't follow/unfollow yourself",
+      success: false
+    })
+   }
+   //their respective user
+   whoFollows = await User.findById(whoFollowsId);
+   whoIsFollowed = await User.findById(whoIsFollowedId);
+   if (!whoIsFollowed) {
+     return res.status(404).json({
+       message: "User not found",
+       message: false,
+     });
+   }
+   //filter the id if already following or not
+   const isFollowing = whoFollows.following.filter((item, index, array)=>{
+    if(item._id === whoIsFollowedId){
+      return true;
+    }
+   })
+   //to unfollow when isfollowing is not null
+   if(isFollowing){
+    
+   }
+   //
+   //add whoIsFollowed in following of whoFollows
+   whoFollows.following.push(whoIsFollowed);
+   //add whoFollows in followers of whoisFollowed
+   whoIsFollowed.followers.push(whoFollows);
+   //save the changes
+   await whoFollows.save();
+   await whoIsFollowed.save();
 
+   return res.status(200).json({
+     message: "follow successful",
+     success: true,
+   });
+ } catch (error) {
+  console.log(error)
+ }
+}

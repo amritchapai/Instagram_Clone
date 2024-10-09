@@ -267,3 +267,23 @@ export const followUnfollow = async(req, res) =>{
   console.log(error)
  }
 }
+
+//delete account
+export const deleteAccount = async(req, res) =>{
+  try {
+    //get the user id of logged in user
+    const id = req.id;
+
+    //filter the id and remove
+    await User.deleteOne({_id: id});
+
+    //we also need to clear the token inside the cookie
+    return res.cookie("token", "", {maxAge: 0}).json({
+      message: "deletion successful",
+      success: true
+    })
+
+  } catch (error) {
+    console.log(error)
+  }
+}

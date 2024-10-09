@@ -1,5 +1,5 @@
 import express from "express";
-import { editProfile, followUnfollow, login, logout, register, suggestedUser, viewProfile} from "../controller/regAndLogin.js";
+import { deleteAccount, editProfile, followUnfollow, login, logout, register, suggestedUser, viewProfile} from "../controller/regAndLogin.js";
 import authentication from "../middleware/authentication.js";
 import upload from "../middleware/multer.js";
 
@@ -25,5 +25,8 @@ router.get("/suggestedUsers", authentication, suggestedUser);
 
 //followUnfollow
 router.put("/followUnfollow/:id", authentication, followUnfollow);
+
+//deleteAccount
+router.get("/delete", authentication, deleteAccount);
 
 export default router

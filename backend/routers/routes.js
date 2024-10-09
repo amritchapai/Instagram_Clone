@@ -1,5 +1,5 @@
 import express from "express";
-import { editProfile, login, logout, register, suggestedUser, viewProfile} from "../controller/regAndLogin.js";
+import { editProfile, followUnfollow, login, logout, register, suggestedUser, viewProfile} from "../controller/regAndLogin.js";
 import authentication from "../middleware/authentication.js";
 
 const router = express.Router();
@@ -17,9 +17,12 @@ router.get("/logout", logout)
 router.get("/instagram/:id", viewProfile);
 
 //to edit
-router.post("/edit",authentication, editProfile);
+router.put("/edit",authentication, editProfile);
 
 //suggested users
 router.get("/suggestedUsers", authentication, suggestedUser);
+
+//followUnfollow
+router.put("/followUnfollow/:id", authentication, followUnfollow);
 
 export default router

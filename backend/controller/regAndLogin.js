@@ -222,8 +222,8 @@ export const followUnfollow = async(req, res) =>{
     })
    }
    //their respective user
-   whoFollows = await User.findById(whoFollowsId);
-   whoIsFollowed = await User.findById(whoIsFollowedId);
+   const whoFollows = await User.findById(whoFollowsId);
+   const whoIsFollowed = await User.findById(whoIsFollowedId);
    if (!whoIsFollowed) {
      return res.status(404).json({
        message: "User not found",
@@ -236,10 +236,10 @@ export const followUnfollow = async(req, res) =>{
    if(isFollowing){
     // to do all the operations inside use use Promise
       await Promise.all([
-        User.findByIdAndUpdate(whoFollowsId, {$pull:{following : whoIsFollowed
+        User.findByIdAndUpdate(whoFollowsId, {$pull:{following : whoIsFollowedId
         }
         }),
-        User.findByIdAndUpdate(whoIsFollowedId, {$pull:{followers : whoFollows
+        User.findByIdAndUpdate(whoIsFollowedId, {$pull:{followers : whoFollowsId
         }
         })
       ]);
@@ -251,10 +251,10 @@ export const followUnfollow = async(req, res) =>{
    else{
     await Promise.all([
       User.findByIdAndUpdate(whoFollowsId, {
-        $push: { following: whoIsFollowed },
+        $push: { following: whoIsFollowedId },
       }),
       User.findByIdAndUpdate(whoIsFollowedId, {
-        $push: { followers: whoFollows },
+        $push: { followers: whoFollowsId },
       }),
     ]);
      return res.status(200).json({

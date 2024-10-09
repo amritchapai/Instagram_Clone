@@ -212,9 +212,9 @@ export const suggestedUser = async(req, res)=>{
 export const followUnfollow = async(req, res) =>{
  try {
    //userId who follows ie account owner
-   whoFollowsId = req.id;
+   const whoFollowsId = req.id;
    //userId who is followed by the account owner
-   whoIsFollowedId = req.params.id;
+   const whoIsFollowedId = req.params.id;
    if(whoFollowsId === whoIsFollowedId){
     return res.status(401).json({
       message: "Can't follow/unfollow yourself",
@@ -227,32 +227,42 @@ export const followUnfollow = async(req, res) =>{
    if (!whoIsFollowed) {
      return res.status(404).json({
        message: "User not found",
-       message: false,
+       success: false,
      });
    }
-   //filter the id if already following or not
-   const isFollowing = whoFollows.following.filter((item, index, array)=>{
-    if(item._id === whoIsFollowedId){
-      return true;
-    }
-   })
-   //to unfollow when isfollowing is not null
+   //if whoFollows is already following
+   const isFollowing = whoFollows.following.includes(whoIsFollowedId);
+   //if isFollowing is true then it is for unfollow
    if(isFollowing){
-    
+    // to do all the operations inside use use Promise
+      await Promise.all([
+        User.findByIdAndUpdate(whoFollowsId, {$pull:{following : whoIsFollowed
+        }
+        }),
+        User.findByIdAndUpdate(whoIsFollowedId, {$pull:{followers : whoFollows
+        }
+        })
+      ]);
+       return res.status(200).json({
+         message: "Unfollow successful",
+         success: true,
+       });
    }
-   //
-   //add whoIsFollowed in following of whoFollows
-   whoFollows.following.push(whoIsFollowed);
-   //add whoFollows in followers of whoisFollowed
-   whoIsFollowed.followers.push(whoFollows);
-   //save the changes
-   await whoFollows.save();
-   await whoIsFollowed.save();
-
-   return res.status(200).json({
-     message: "follow successful",
-     success: true,
-   });
+   else{
+    await Promise.all([
+      User.findByIdAndUpdate(whoFollowsId, {
+        $push: { following: whoIsFollowed },
+      }),
+      User.findByIdAndUpdate(whoIsFollowedId, {
+        $push: { followers: whoFollows },
+      }),
+    ]);
+     return res.status(200).json({
+       message: "Follow successful",
+       success: true,
+     });
+   }
+  
  } catch (error) {
   console.log(error)
  }

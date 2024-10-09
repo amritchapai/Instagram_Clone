@@ -1,6 +1,7 @@
 import express from "express";
 import { editProfile, followUnfollow, login, logout, register, suggestedUser, viewProfile} from "../controller/regAndLogin.js";
 import authentication from "../middleware/authentication.js";
+import upload from "../middleware/multer.js";
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router.get("/logout", logout)
 router.get("/instagram/:id", viewProfile);
 
 //to edit
-router.put("/edit",authentication, editProfile);
+router.put("/edit",authentication,upload.single('profilePicture'),  editProfile);
 
 //suggested users
 router.get("/suggestedUsers", authentication, suggestedUser);

@@ -138,7 +138,7 @@ export const editProfile = async (req, res)=>{
     const userId = req.id;
 
     //find the user for that id
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).select('-password');
     if(!user){
       return res.status(404).json({
         message: "user not found",

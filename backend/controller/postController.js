@@ -80,6 +80,7 @@ export const editPost = async (req, res) => {
   }
 };
 
+//to like and unlike post
 export const likeUnlikePost = async (req, res) => {
   try {
     const userId = req.id;
@@ -130,3 +131,45 @@ export const likeUnlikePost = async (req, res) => {
     console.log(error);
   }
 };
+
+//to delete post
+export const deletePost = async (req, res)=>{
+  try {
+    const userId = req.id;
+    const postId = req.params.id;
+    const user = await User.findById(userId);
+    if(!user)
+    {
+      return res.status(404).json({
+        message: "User not found",
+        success: false
+      })
+    }
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({
+        message: "Post not found",
+        success: false,
+      });
+    }
+    const postOwner = post.owner;
+    if(postOwner.equals(userId))
+    {
+      await Post.deleteOne({
+        _id: postId
+      })
+      return res.status(200).json({
+        message: "Deletion successful",
+        success: true
+      })
+    }
+    else{
+      return res.status(401).json({
+        message: "Unauthorized access",
+        success: false
+      })
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}

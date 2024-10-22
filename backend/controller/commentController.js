@@ -1,5 +1,6 @@
 import Comment from "../models/comment";
 import Post from "../models/Posts";
+import User from "../models/userDetails";
 
 
 //to add comment
@@ -36,3 +37,42 @@ export const addComment = async (req, res)=>{
     }
 }
 
+export const likeUnlikeComment = async (req, res)=>{
+    try {
+        const userId = req.id;
+        const user = await User.findById(userId);
+        if (!user){
+            return res.status(404).json({
+                message: "user not found",
+                success: false
+            })
+        }
+        const commentId = req.params.id;
+        const comment = await Comment.findById(commentId)
+         if (!comment) {
+           return res.status(404).json({
+             message: "comment not found",
+             success: false,
+           });
+         }
+         //check if it is already liked or not 
+         if(comment.likes.includes(userId)){
+            await comment.likes.pull(userId);
+            await comment.save();
+            return res.status(200).json({
+              message: "comment unliked",
+              success: true,
+            });
+         }
+         else{
+            await comment.likes.push(userId);
+            await comment.save();
+            return res.status(200).json({
+              message: "comment liked",
+              success: true,
+            });
+         }
+    } catch (error) {
+         console.log(error)
+    }
+}

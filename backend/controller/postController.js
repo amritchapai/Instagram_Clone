@@ -133,17 +133,16 @@ export const likeUnlikePost = async (req, res) => {
 };
 
 //to delete post
-export const deletePost = async (req, res)=>{
+export const deletePost = async (req, res) => {
   try {
     const userId = req.id;
     const postId = req.params.id;
     const user = await User.findById(userId);
-    if(!user)
-    {
+    if (!user) {
       return res.status(404).json({
         message: "User not found",
-        success: false
-      })
+        success: false,
+      });
     }
     const post = await Post.findById(postId);
     if (!post) {
@@ -153,37 +152,42 @@ export const deletePost = async (req, res)=>{
       });
     }
     const postOwner = post.owner;
-    if(postOwner.equals(userId))
-    {
+    if (postOwner.equals(userId)) {
       await Post.deleteOne({
-        _id: postId
-      })
+        _id: postId,
+      });
       return res.status(200).json({
         message: "Deletion successful",
-        success: true
-      })
-    }
-    else{
+        success: true,
+      });
+    } else {
       return res.status(401).json({
         message: "Unauthorized access",
-        success: false
-      })
+        success: false,
+      });
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
 //get all the posts
-export const getPosts = async (req, res) => {
+export const getAllPosts = async (req, res) => {
   try {
     const userId = req.params.id;
 
-    const posts = await Post.find({ owner: userId });
+    const posts = await Post.find()
+      .toConstructor({ createdAt: -1 })
+      .populate({ path: "owner", select: "username, profilePicture" })
+      .populate({
+        path: "comments",
+        sort: { createdAt: -1 },
+        populate: { path: "writer", select: "username, profilePicture" },
+      });
 
     if (!posts || posts.length === 0) {
       return res.status(404).json({
-        message: "No posts found for this user",
+        message: "No posts found",
         success: false,
       });
     }
@@ -191,9 +195,41 @@ export const getPosts = async (req, res) => {
     return res.status(200).json({
       message: "Posts retrieved successfully",
       success: true,
-      posts: posts, 
+      posts: posts,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+//get only user posts
+export const getUserPost = async(req, res)=>{
+  try {
+    const userId = req.id;
+
+    const posts = await Post.find({owner: userId}).sort({createdAt: -1}).populate({
+      path:'owner', select:'username, profilePicture',
+    }).populate({
+      path:'comments', sort: {createdAt: -1},
+      populate:{
+        path:'writer',
+        select:'username, profilePicture'
+      }
+    });
+    if (!posts || posts.length === 0) {
+      return res.status(404).json({
+        message: "No posts found",
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Posts retrieved successfully",
+      success: true,
+      posts: posts,
     });
   } catch (error) {
     console.log(error)
   }
-};
+}

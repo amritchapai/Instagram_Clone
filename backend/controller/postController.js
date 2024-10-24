@@ -174,10 +174,9 @@ export const deletePost = async (req, res) => {
 //get all the posts
 export const getAllPosts = async (req, res) => {
   try {
-    const userId = req.params.id;
 
     const posts = await Post.find()
-      .toConstructor({ createdAt: -1 })
+      .sort({ createdAt: -1 })
       .populate({ path: "owner", select: "username, profilePicture" })
       .populate({
         path: "comments",

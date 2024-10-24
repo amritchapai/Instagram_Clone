@@ -76,3 +76,86 @@ export const likeUnlikeComment = async (req, res)=>{
          console.log(error)
     }
 }
+
+//to delete comment
+export const deleteComment = async (req, res)=>{
+    try {
+        const userId = req.id;
+        //comment id params ma hunchha
+        const commentId = req.params.id;
+
+        //get the comment from the comment id and as well as postid of that comment
+        const comment = await Comment.findById(commentId);
+        if (!comment) {
+          return res.status(404).json({
+            message: "Comment does not exist",
+            success: false,
+          });
+        }
+        const postId = comment.post;
+        //check for matching the owner with comment writer
+        if(!userId.equals(comment.writer)){
+            return res.status(403).json({
+                message: "Unauthorized access",
+                success: false
+            })
+        }
+        //delete the comment
+        await Comment.findByIdAndDelete(commentId);
+        //pull the commentId which is in post
+        const post = await Post.findById(postId);
+        await post.comments.pull(commentId);
+        await post.save();
+
+        return res.status(202).json({
+            message: "comment deleted",
+            success: true
+        })
+
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+//to edit comment
+export const editComment = async (req, res)=>{
+    try {
+      const userId = req.id;
+      //comment id params ma hunchha
+      const commentId = req.params.id;
+
+      //get the comment from the comment id
+      const comment = await Comment.findById(commentId);
+      if (!comment) {
+        return res.status(404).json({
+          message: "Comment does not exist",
+          success: false,
+        });
+      }
+      //check for matching the owner with comment writer
+      if (!userId.equals(comment.writer)) {
+        return res.status(403).json({
+          message: "Unauthorized access",
+          success: false,
+        });
+      }
+      //edit the comment
+      const description = req.body.description;
+      const editedComment = await Comment.findByIdAndUpdate(commentId, {
+        $set:{
+            description: description
+        }
+      }, {new: true}).populate({
+        path: "writer",
+        select: "username, profilePicture"
+      })
+      return res.status(202).json({
+        message: "comment edited",
+        success: true,
+        editedComment
+      });
+    } catch (error) {
+        console.log(error)
+    }
+}

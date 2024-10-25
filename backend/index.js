@@ -6,6 +6,7 @@ import connectDB from "./utils/db.js";
 import router from "./routers/routes.js";
 import postRouter from "./routers/postRoutes.js"
 import commentRouter from "./routers/commentRoutes.js"
+import messageRouter from "./routers/messageRoutes.js"
 
 
 //setting port from the environment variables
@@ -19,6 +20,7 @@ app.use(urlencoded({ extended: true }));
 app.use(router);
 app.use(postRouter);
 app.use(commentRouter);
+app.use(messageRouter);
 
 //to get 
 app.get("/",(req, res)=>{

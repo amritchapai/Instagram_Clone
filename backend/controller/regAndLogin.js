@@ -3,6 +3,7 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import getDataURI from "../utils/dataUri.js";
 import cloudinary from "../utils/cloudinary.js";
+import Post from "../models/Posts.js";
 
 //function to register
 export const register = async (req, res) => {
@@ -72,6 +73,17 @@ export const login = async (req, res) => {
     console.log(token);
     //user ma password bahek userko sab details hunchha front end ma pathauna
     //password napathaune kinaki thaha hunu hudaina aru lai
+
+    //populate each post if in the post array
+    const populatedPosts = await Promise.all([
+      findUser.posts.map( async (postId)=>{
+        const post = await Post.findById(postId)
+        if(post.owner.equals(findUser._id)){
+          return post;
+        }
+        return null;
+      })
+    ])
     const user = {
       username: findUser.username,
       email: findUser.email,
@@ -80,7 +92,7 @@ export const login = async (req, res) => {
       gender: findUser.gender,
       followers: findUser.followers,
       following: findUser.following,
-      posts: findUser.posts,
+      posts: populatedPosts,
       StartedFrom: findUser.StartedFrom,
     };
     return res

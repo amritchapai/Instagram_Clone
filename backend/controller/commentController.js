@@ -1,6 +1,6 @@
-import Comment from "../models/comment";
-import Post from "../models/Posts";
-import User from "../models/userDetails";
+import Comment from "../models/comment.js";
+import Post from "../models/Posts.js";
+import User from "../models/userDetails.js";
 
 
 //to add comment

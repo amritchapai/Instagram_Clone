@@ -4,6 +4,7 @@ import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { Button } from './ui/button';
 import { toast } from 'sonner';
+import { Link } from 'react-router-dom';
 
 
 function Signup() {
@@ -84,6 +85,7 @@ function Signup() {
           />
         </div>
         <Button type="submit">Sign Up</Button>
+        <span className='text-center'>Already have an account?<Link to="/login">Login</Link> </span>
       </form>
     </div>
   );

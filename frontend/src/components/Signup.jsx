@@ -5,7 +5,8 @@ import { Input } from './ui/input'
 import { Button } from './ui/button';
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Signup() {
   const [input, setInput] = useState({
@@ -20,6 +21,7 @@ function Signup() {
 
   const signupHandler = async(e) =>{
     e.preventDefault();
+    const navigate =useNavigate;
     console.log(input);
 
     try {
@@ -30,6 +32,7 @@ function Signup() {
       withCredentials: true
     });
     if(res.data.success){
+      navigate("/login");
       toast.success(res.data.message);
       setInput({
         username: "",
@@ -39,7 +42,7 @@ function Signup() {
     }
     } catch (error) {
       console.log(error)
-      toast.error(error.response.data.meesage)
+      toast.error(error.response?.data?.message)
     }
     finally{
       setLoading(false)

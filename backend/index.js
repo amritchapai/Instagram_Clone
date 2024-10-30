@@ -7,12 +7,21 @@ import router from "./routers/routes.js";
 import postRouter from "./routers/postRoutes.js"
 import commentRouter from "./routers/commentRoutes.js"
 import messageRouter from "./routers/messageRoutes.js"
+import cors from "cors";
 
 
 //setting port from the environment variables
 const PORT = process.env.PORT || 8080;
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());
@@ -21,6 +30,9 @@ app.use(router);
 app.use(postRouter);
 app.use(commentRouter);
 app.use(messageRouter);
+
+
+
 
 //to get 
 app.get("/",(req, res)=>{

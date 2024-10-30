@@ -4,6 +4,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
 import axios from "axios"
+import { LoaderCircleIcon } from "lucide-react";
 
 function Login() {
   const [input, setInput] = useState({
@@ -36,7 +37,7 @@ function Login() {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.meesage);
+      toast.error(error.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -71,7 +72,18 @@ function Login() {
             className="focus-visible:ring-transparent my-1"
           />
         </div>
-        <Button type="submit">Log in</Button>
+        <Button type="submit">
+          {loading ? (
+            <div className="flex gap-2 items-center">
+              <LoaderCircleIcon />
+              <span>Logging in</span>
+            </div>
+          ) : (
+            <div>
+              <span>Log in</span>
+            </div>
+          )}
+        </Button>
       </form>
     </div>
   );

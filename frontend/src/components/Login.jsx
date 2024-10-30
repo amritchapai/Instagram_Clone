@@ -5,10 +5,12 @@ import { Button } from "./ui/button";
 import { toast } from "sonner";
 import axios from "axios"
 import { LoaderCircleIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
+const Login=() => {
+  const navigate = useNavigate();
   const [input, setInput] = useState({
-    email: "",
+    username: "",
     password: "",
   });
   const [loading, setLoading] = useState(false);
@@ -19,7 +21,6 @@ function Login() {
   const loginHandler = async (e) => {
     e.preventDefault();
     console.log(input);
-
     try {
       setLoading(true);
       const res = await axios.post("http://localhost:8000/login", input, {
@@ -30,14 +31,15 @@ function Login() {
       });
       if (res.data.success) {
         toast.success(res.data.message);
+        navigate("/");
         setInput({
-          email: "",
+          username: "",
           password: "",
         });
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message);
     } finally {
       setLoading(false);
     }
@@ -53,11 +55,11 @@ function Login() {
           <p className="text-center text-sm">Log in to this platform</p>
         </div>
         <div>
-          <Label>Email</Label>
+          <Label>Username</Label>
           <Input
-            type="email"
-            name="email"
-            value={input.email}
+            type="text"
+            name="username"
+            value={input.username}
             onChange={changeEventHandler}
             className="focus-visible:ring-transparent my-1"
           />

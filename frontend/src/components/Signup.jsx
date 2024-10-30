@@ -7,8 +7,10 @@ import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { LoaderCircle, LoaderCircleIcon } from 'lucide-react';
 
-function Signup() {
+const Signup=() => {
+  const navigate = useNavigate();
   const [input, setInput] = useState({
     username:"",
     email:"",
@@ -21,7 +23,6 @@ function Signup() {
 
   const signupHandler = async(e) =>{
     e.preventDefault();
-    const navigate =useNavigate;
     console.log(input);
 
     try {
@@ -32,8 +33,8 @@ function Signup() {
       withCredentials: true
     });
     if(res.data.success){
-      navigate("/login");
       toast.success(res.data.message);
+      navigate("/login");
       setInput({
         username: "",
         email: "",
@@ -41,7 +42,7 @@ function Signup() {
       });
     }
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       toast.error(error.response?.data?.message)
     }
     finally{
@@ -87,7 +88,19 @@ function Signup() {
             className="focus-visible:ring-transparent my-1"
           />
         </div>
-        <Button type="submit">Sign Up</Button>
+        <Button type="submit">
+          {
+            loading?(
+              <div className='flex items-center gap-2'>
+                <LoaderCircleIcon/> Signing Up
+              </div>
+            ):(
+              <div>
+                Sign Up
+              </div>
+            )
+          }
+        </Button>
         <span className='text-center'>Already have an account?<Link to="/login">Login</Link> </span>
       </form>
     </div>

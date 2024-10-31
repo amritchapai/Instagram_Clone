@@ -9,6 +9,9 @@ import {
 } from "lucide-react";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import axios from "axios";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const sideBarItems = [
   {
@@ -51,6 +54,26 @@ const sideBarItems = [
 ];
 
 const LeftSideBar = () => {
+  const navigate = useNavigate();
+  const leftSideBarHandler = async (text) => {
+    if (text == "Logout") {
+      try {
+        const res = await axios.post("http://localhost:8000/logout", {},{
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: true,
+        });
+        if(res.data.success){
+          toast.success(res.data.message);
+          navigate("/login");
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error(error.response?.data?.message);
+      }
+    }
+  };
   return (
     <div className="fixed top-0 z-10 left-0 px-4 border-r border-gray-300 w-[16%] h-screen">
       <div className="flex flex-col">
@@ -58,7 +81,11 @@ const LeftSideBar = () => {
         <div>
           {sideBarItems.map((item, index) => {
             return (
-              <div key={index} className="flex flex-row items-center gap-3 relative hover:bg-gray-100 cursor-pointer rounded-lg p-3 m-3">
+              <div
+                key={index}
+                className="flex flex-row items-center gap-3 relative hover:bg-gray-100 cursor-pointer rounded-lg p-3 m-3"
+                onClick={()=>leftSideBarHandler(item.text)}
+              >
                 {item.icon}
                 <span>{item.text}</span>
               </div>

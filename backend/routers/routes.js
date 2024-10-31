@@ -12,7 +12,7 @@ router.post("/register", register);
 router.post("/login", login);
 
 //to logout
-router.get("/logout", logout)
+router.post("/logout", logout)
 
 //to view profile
 router.get("/instagram/:id", viewProfile);

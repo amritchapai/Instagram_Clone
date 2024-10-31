@@ -8,6 +8,7 @@ import { Input } from "./ui/input";
 import CommentDialog from "./CommentDialog";
 
 const Post = () => {
+   const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
   const changeEventHandler = (e) => {
     const writtenText = e.target.value;
@@ -57,7 +58,12 @@ const Post = () => {
       <div className="flex items-center justify-between my-2">
         <div className="flex gap-2 items-center">
           <FaRegHeart size={"22px"} className="cursor-pointer" />
-          <MessageCircle className="cursor-pointer hover:text-gray-600" />
+          <MessageCircle
+            className="cursor-pointer hover:text-gray-600"
+            onClick={() => {
+              setOpen(true);
+            }}
+          />
           <Send className="cursor-pointer hover:text-gray-600" />
         </div>
         <Bookmark className="cursor-pointer hover:text-gray-600" />
@@ -68,7 +74,15 @@ const Post = () => {
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur
         totam rerum omnis nemo necessitatibus sequi?
       </p>
-      <CommentDialog />
+      <span
+        className="text-sm text-gray-400 cursor-pointer"
+        onClick={() => {
+          setOpen(true);
+        }}
+      >
+        View all 10 comments
+      </span>
+      <CommentDialog open={open} setOpen= {setOpen} />
       <div className="flex mr-2">
         <input
           type="text"

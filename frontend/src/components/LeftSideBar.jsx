@@ -7,7 +7,7 @@ import {
   Search,
   TrendingUp,
 } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import axios from "axios";
 import { toast } from "sonner";
@@ -75,7 +75,7 @@ const LeftSideBar = () => {
     }
   };
   return (
-    <div className="fixed top-0 z-10 left-0 px-4 border-r border-gray-300 w-[16%] h-screen">
+    <div className="fixed top-0 z-10 left-0 px-4 border-r border-gray-300 w-[20%] h-screen hidden md:flex">
       <div className="flex flex-col">
         <h1 className="my-8 font-bold pl-3 text-xl">LOGO</h1>
         <div>

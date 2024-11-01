@@ -8,6 +8,7 @@ import { Input } from "./ui/input";
 import CommentDialog from "./CommentDialog";
 
 const Post = () => {
+  const caption = "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur totam rerum omnis nemo necessitatibus sequi?";
    const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
   const changeEventHandler = (e) => {
@@ -71,8 +72,7 @@ const Post = () => {
       <span className="text-sm font-bold ">1,243 likes</span>
       <p>
         <span className="font-medium mr-2">Username</span>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur
-        totam rerum omnis nemo necessitatibus sequi?
+        {caption}
       </p>
       <span
         className="text-sm text-gray-400 cursor-pointer"
@@ -82,7 +82,7 @@ const Post = () => {
       >
         View all 10 comments
       </span>
-      <CommentDialog open={open} setOpen= {setOpen} />
+      <CommentDialog open={open} setOpen= {setOpen} caption={caption}/>
       <div className="flex mr-2">
         <input
           type="text"

@@ -32,15 +32,14 @@ const CommentDialog = ({ open, setOpen, caption }) => {
           </div>
           <div className="w-1/2 flex flex-col justify-between">
             <div className="flex items-center justify-between p-4">
-              <div className="flex gap-3 items-center">
+              <div className="flex gap-2 items-center">
                 <Link to="#">
                   <Avatar className="">
                     <AvatarImage src="" alt="image icon" />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                 </Link>
-                <Link className="font-semibold">Username</Link>
-                {/* <span className="text-gray-600 text-sm">Bio here...</span> */}
+                <Link to="#" className="font-semibold">Username</Link>
               </div>
               <Dialog>
                 <DialogTrigger asChild>
@@ -65,7 +64,7 @@ const CommentDialog = ({ open, setOpen, caption }) => {
               </Dialog>
             </div>
             <hr />
-            <div className="flex-1 overflow-y-auto mas-h-96 p-4">
+            <div className="flex-1 overflow-y-auto max-h-96 p-4">
               Comments here....
             </div>
             <div className=" border-t border-gray-300 p-2 rounded">

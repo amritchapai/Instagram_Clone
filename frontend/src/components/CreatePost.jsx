@@ -5,6 +5,8 @@ import { Textarea } from './ui/textarea'
 import { useRef } from 'react'
 import { Button } from './ui/button'
 import { DataURL } from '@/lib/utils'
+import { CrossCircledIcon } from '@radix-ui/react-icons'
+
 
 const CreatePost = ({open, setOpen}) => {
     const [caption, setCaption] = useState("")
@@ -12,6 +14,7 @@ const CreatePost = ({open, setOpen}) => {
     const [preview, setPreview] = useState("")
     const imageRef = useRef();
     const fileChangeHandler= async(e)=>{
+        e.preventDefault;
         const file = e.target.files?.[0];
         if(file){
             setImage(file);
@@ -19,32 +22,60 @@ const CreatePost = ({open, setOpen}) => {
             setPreview(dataURL);
         }
     }
+    const crossClickHandler =()=>{
+        setPreview("");
+        setImage("");
+    }
   return (
     <Dialog open={open}>
-        <DialogContent onInteractOutside= {()=>{setOpen(false)}} className="max-w-4xl">
-            <DialogTitle>Create Post</DialogTitle>
-            <hr className='bg-red-500'/>
-            <div className='flex gap-2 padding-2 items-center'>
-                    <Avatar>
-                        <AvatarImage src=""/>
-                        <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                    <span className='font-semibold text-sm'>Username</span>
-            </div>
-            <hr className='bg-red-600'/>
-                <Textarea className = "outline-none border-none focus-visible:ring-0" placeholder="Add a caption..."/>
-                {
-                    preview && (
-                        <div className='w-full h-64 flex items-center justify-center'>
-                            <img src={preview} alt = "uploaded image" className="h-full w-full object-cover" />
-                        </div>
-                    )
-                }
-                <input ref={imageRef} type='file' hidden onChange={fileChangeHandler}/>
-                <Button onClick={()=>imageRef.current.click()} className="w-fit mx-auto" >Add from this device</Button>
-        </DialogContent>
+      <DialogContent
+        onInteractOutside={() => {
+          setOpen(false);
+        }}
+        className="max-w-4xl overflow-y-auto"
+      >
+        <DialogTitle>Create Post</DialogTitle>
+        <hr className="bg-red-500" />
+        <div className="flex gap-2 padding-2 items-center">
+          <Avatar>
+            <AvatarImage src="" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+          <span className="font-semibold text-sm">Username</span>
+        </div>
+        <hr className="bg-red-600" />
+        <Textarea
+          className="outline-none border-none focus-visible:ring-0"
+          placeholder="Add a caption..."
+        />
+        {preview && (
+          <div className="relative w-full h-64 flex items-center justify-center">
+              <img
+                src={preview}
+                alt="uploaded image"
+                className="h-full w-full object-cover"
+              />
+            <CrossCircledIcon onClick={crossClickHandler} className="absolute top-2 right-2 w-6 h-6 cursor-pointer" />
+          </div>
+        )}
+        <input ref={imageRef} type="file" hidden onChange={fileChangeHandler} />
+        <Button
+          onClick={() => imageRef.current.click()}
+          className="w-fit mx-auto"
+        >
+          Add from this device
+        </Button>
+        {preview && (
+          <Button
+            variant="ghost"
+            className="hover:bg-transparent hover:text-black text-red-600 w-fit mx-auto font-bold text-lg "
+          >
+            Post
+          </Button>
+        )}
+      </DialogContent>
     </Dialog>
-  )
+  );
 }
 
 export default CreatePost

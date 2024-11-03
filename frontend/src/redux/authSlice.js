@@ -9,7 +9,7 @@ const authSlice = createSlice({
         //actions
         setAuthUser:(state, action)=>{
             state.user = action.payload
-        }
+        } 
     }
 });
 

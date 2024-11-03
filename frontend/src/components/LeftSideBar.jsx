@@ -12,6 +12,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import axios from "axios";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { setAuthUser } from "@/redux/authSlice";
+import { useDispatch } from "react-redux";
+import CreatePost from "./CreatePost";
 
 const sideBarItems = [
   {
@@ -54,9 +57,11 @@ const sideBarItems = [
 ];
 
 const LeftSideBar = () => {
+  const [open, setOpen] = useState(false)
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const leftSideBarHandler = async (text) => {
-    if (text == "Logout") {
+    if (text === "Logout") {
       try {
         const res = await axios.post("http://localhost:8000/logout", {},{
           headers: {
@@ -67,11 +72,15 @@ const LeftSideBar = () => {
         if(res.data.success){
           toast.success(res.data.message);
           navigate("/login");
+          dispatch(setAuthUser(""))
         }
       } catch (error) {
         console.log(error);
         toast.error(error.response?.data?.message);
       }
+    }
+    else if(text === "Create"){
+      setOpen(true);
     }
   };
   return (
@@ -84,7 +93,7 @@ const LeftSideBar = () => {
               <div
                 key={index}
                 className="flex flex-row items-center gap-3 relative hover:bg-gray-100 cursor-pointer rounded-lg p-3 m-3"
-                onClick={()=>leftSideBarHandler(item.text)}
+                onClick={() => leftSideBarHandler(item.text)}
               >
                 {item.icon}
                 <span>{item.text}</span>
@@ -93,6 +102,7 @@ const LeftSideBar = () => {
           })}
         </div>
       </div>
+      <CreatePost open={open} setOpen={setOpen}/>
     </div>
   );
 };

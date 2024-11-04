@@ -11,7 +11,7 @@ export const addPost = async (req, res) => {
     const userId = req.id;
     if (!image) {
       return res.status(400).json({
-        message: "image is required",
+        message: "Image is required",
         success: false,
       });
     }
@@ -22,13 +22,13 @@ export const addPost = async (req, res) => {
       .toFormat("jpeg", { quality: 80 })
       .toBuffer();
     //buffer bata dataUri ma change gareko
-    const fileUri = `data:image/jpeg:base64,${optimizedImage.toString(
+    const fileUri = `data:image/jpeg;base64,${optimizedImage.toString(
       "base64"
     )}`;
     const cloudResponse = await cloudinary.uploader.upload(fileUri);
     const post = await Post.create({
-      caption,
-      image: cloudResponse.secure_url,
+      caption: caption,
+      photo: cloudResponse.secure_url,
       owner: userId,
     });
 
@@ -174,7 +174,6 @@ export const deletePost = async (req, res) => {
 //get all the posts
 export const getAllPosts = async (req, res) => {
   try {
-
     const posts = await Post.find()
       .sort({ createdAt: -1 })
       .populate({ path: "owner", select: "username, profilePicture" })
@@ -201,21 +200,25 @@ export const getAllPosts = async (req, res) => {
   }
 };
 
-
 //get only user posts
-export const getUserPost = async(req, res)=>{
+export const getUserPost = async (req, res) => {
   try {
     const userId = req.id;
 
-    const posts = await Post.find({owner: userId}).sort({createdAt: -1}).populate({
-      path:'owner', select:'username, profilePicture',
-    }).populate({
-      path:'comments', sort: {createdAt: -1},
-      populate:{
-        path:'writer',
-        select:'username, profilePicture'
-      }
-    });
+    const posts = await Post.find({ owner: userId })
+      .sort({ createdAt: -1 })
+      .populate({
+        path: "owner",
+        select: "username, profilePicture",
+      })
+      .populate({
+        path: "comments",
+        sort: { createdAt: -1 },
+        populate: {
+          path: "writer",
+          select: "username, profilePicture",
+        },
+      });
     if (!posts || posts.length === 0) {
       return res.status(404).json({
         message: "No posts found",
@@ -229,6 +232,6 @@ export const getUserPost = async(req, res)=>{
       posts: posts,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};

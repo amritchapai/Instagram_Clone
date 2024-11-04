@@ -6,6 +6,8 @@ import { useRef } from 'react'
 import { Button } from './ui/button'
 import { DataURL } from '@/lib/utils'
 import { CrossCircledIcon } from '@radix-ui/react-icons'
+import axios from 'axios'
+import { toast } from 'sonner'
 
 
 const CreatePost = ({open, setOpen}) => {
@@ -14,7 +16,6 @@ const CreatePost = ({open, setOpen}) => {
     const [preview, setPreview] = useState("")
     const imageRef = useRef();
     const fileChangeHandler= async(e)=>{
-        e.preventDefault;
         const file = e.target.files?.[0];
         if(file){
             setImage(file);
@@ -22,9 +23,47 @@ const CreatePost = ({open, setOpen}) => {
             setPreview(dataURL);
         }
     }
+
+    const captionChangeHandler = (e)=>{
+      setCaption(e.target.value);
+    }
+
     const crossClickHandler =()=>{
         setPreview("");
         setImage("");
+    }
+
+    const createPostHandler = async(e)=>{
+       if (!image || !caption) {
+         toast.error("Image and caption are required.");
+         return;
+       }
+       const formData = new FormData();
+       if (preview) formData.append('image', image);
+       formData.append('caption', caption);
+      try {
+        
+        const res = await axios.post(
+        "http://localhost:8000/addPost",
+        formData,
+        
+        {
+          headers:{
+            'Content-Type': 'multipart/form-data'
+          },
+          withCredentials: true,
+        }
+      );
+     
+    
+    if(res.data.success){
+      console.log(res.data.message)
+      toast.success(res.data.message)
+     }
+    }catch (error) {
+        console.log(error);
+        toast.error(error.response?.data?.message)
+      }
     }
   return (
     <Dialog open={open}>
@@ -47,6 +86,9 @@ const CreatePost = ({open, setOpen}) => {
         <Textarea
           className="outline-none border-none focus-visible:ring-0"
           placeholder="Add a caption..."
+          name = "caption"
+          value = {caption}
+          onChange = {captionChangeHandler}
         />
         {preview && (
           <div className="relative w-full h-64 flex items-center justify-center">
@@ -69,6 +111,7 @@ const CreatePost = ({open, setOpen}) => {
           <Button
             variant="ghost"
             className="hover:bg-transparent hover:text-black text-red-600 w-fit mx-auto font-bold text-lg "
+            onClick={createPostHandler}
           >
             Post
           </Button>

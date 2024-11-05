@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import authReducer from "./authSlice";
-import postReducer from "./postSlice"
+import authReducer from "./authSlice.js";
+import postReducer from "./postSlice.js"
 import {
   persistReducer,
   FLUSH,

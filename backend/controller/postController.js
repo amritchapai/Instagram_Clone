@@ -176,11 +176,11 @@ export const getAllPosts = async (req, res) => {
   try {
     const posts = await Post.find()
       .sort({ createdAt: -1 })
-      .populate({ path: "owner", select: "username, profilePicture" })
+      .populate({ path: "owner", select: "username profilePicture" })
       .populate({
         path: "comments",
         sort: { createdAt: -1 },
-        populate: { path: "writer", select: "username, profilePicture" },
+        populate: { path: "writer", select: "username profilePicture" },
       });
 
     if (!posts || posts.length === 0) {

@@ -67,7 +67,7 @@ const LeftSideBar = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: true,
+          withCredentials: true,
         });
         if(res.data.success){
           toast.success(res.data.message);

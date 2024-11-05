@@ -75,15 +75,15 @@ export const login = async (req, res) => {
     //password napathaune kinaki thaha hunu hudaina aru lai
 
     //populate each post if in the post array
-    const populatedPosts = await Promise.all([
-      findUser.posts.map( async (postId)=>{
+    const populatedPosts = await Promise.all(
+        findUser.posts.map( async (postId)=>{
         const post = await Post.findById(postId)
-        if(post.owner.equals(findUser._id)){
+        if(post?.owner?.equals(findUser._id)){
           return post;
         }
         return null;
       })
-    ])
+    );
     const user = {
       username: findUser.username,
       email: findUser.email,

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "./ui/button";
 
-const CommentDialog = ({ open, setOpen, caption }) => {
+const CommentDialog = ({ open, setOpen, post }) => {
   const[comment, setComment] = useState("");
   const changeEventHandler = (e)=>{
     const obtainedComment = e.target.value;
@@ -35,11 +35,11 @@ const CommentDialog = ({ open, setOpen, caption }) => {
               <div className="flex gap-2 items-center">
                 <Link to="#">
                   <Avatar className="">
-                    <AvatarImage src="" alt="image icon" />
+                    <AvatarImage src={post.owner.profilePicture} alt="image icon" />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                 </Link>
-                <Link to="#" className="font-semibold">Username</Link>
+                <Link to="#" className="font-semibold">{post.owner.username}</Link>
               </div>
               <Dialog>
                 <DialogTrigger asChild>

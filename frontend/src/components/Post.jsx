@@ -4,11 +4,9 @@ import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { Bookmark, MessageCircle, MoreHorizontal, Send } from "lucide-react";
 import { Button } from "./ui/button";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { Input } from "./ui/input";
 import CommentDialog from "./CommentDialog";
 
-const Post = () => {
-  const caption = "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur totam rerum omnis nemo necessitatibus sequi?";
+const Post = ({post}) => {
    const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
   const changeEventHandler = (e) => {
@@ -26,10 +24,10 @@ const Post = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Avatar>
-            <AvatarImage src="" alt="post Image" />
+            <AvatarImage src={post.owner.profilePicture} alt="post Image" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <h1 className="font-medium ">username</h1>
+          <h1 className="font-medium ">{post.owner.username}</h1>
           <Dialog>
             <DialogTrigger asChild>
               <MoreHorizontal className="cursor-pointer" />
@@ -71,8 +69,8 @@ const Post = () => {
       </div>
       <span className="text-sm font-bold ">1,243 likes</span>
       <p>
-        <span className="font-medium mr-2">Username</span>
-        {caption}
+        <span className="font-medium mr-2">{post.owner.username}</span>
+        {post.caption}
       </p>
       <span
         className="text-sm text-gray-400 cursor-pointer"
@@ -82,7 +80,7 @@ const Post = () => {
       >
         View all 10 comments
       </span>
-      <CommentDialog open={open} setOpen= {setOpen} caption={caption}/>
+      <CommentDialog open={open} setOpen= {setOpen} post={post} />
       <div className="flex mr-2">
         <input
           type="text"

@@ -21,16 +21,16 @@ const CommentDialog = ({ open, setOpen, post }) => {
     <Dialog open={open}>
       <DialogContent
         onInteractOutside={() => setOpen(false)}
-        className="max-w-5xl p-0 flex flex-col"
+        className="max-w-[85%] p-0 flex flex-col min-h-[80%]"
       >
         <div className="flex flex-1 gap-3">
-          <div className="w-1/2">
+          <div className="max-w-[58%]">
             <img
-              className="w-full h-full object-cover rounded-l-lg"
-              src="https://plus.unsplash.com/premium_photo-1730142098065-c8e1a9361b6e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyfHx8ZW58MHx8fHx8"
+              className="w-full h-full object-fit rounded-l-lg"
+              src={post.photo}
             />
           </div>
-          <div className="w-1/2 flex flex-col justify-between">
+          <div className="max-w-1/2 flex flex-col justify-between">
             <div className="flex items-center justify-between p-4">
               <div className="flex gap-2 items-center">
                 <Link to="#">

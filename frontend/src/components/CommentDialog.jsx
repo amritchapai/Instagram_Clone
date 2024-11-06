@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Link } from "react-router-dom";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "./ui/button";
+import CommentCard from "./commentCard";
 
 const CommentDialog = ({ open, setOpen, post }) => {
   const[comment, setComment] = useState("");
@@ -21,16 +22,16 @@ const CommentDialog = ({ open, setOpen, post }) => {
     <Dialog open={open}>
       <DialogContent
         onInteractOutside={() => setOpen(false)}
-        className="max-w-[85%] p-0 flex flex-col min-h-[80%]"
+        className="min-w-[85%] p-0 flex flex-col min-h-[80%]"
       >
         <div className="flex flex-1 gap-3">
-          <div className="max-w-[58%]">
+          <div className="max-w-[58%] min-w-[50%] flex">
             <img
               className="w-full h-full object-fit rounded-l-lg"
               src={post.photo}
             />
           </div>
-          <div className="max-w-1/2 flex flex-col justify-between">
+          <div className="w-full flex flex-col justify-between">
             <div className="flex items-center justify-between p-4">
               <div className="flex gap-2 items-center">
                 <Link to="#">
@@ -63,9 +64,9 @@ const CommentDialog = ({ open, setOpen, post }) => {
                 </DialogContent>
               </Dialog>
             </div>
-            <hr />
+            
             <div className="flex-1 overflow-y-auto max-h-96 p-4">
-              Comments here....
+              <CommentCard/>
             </div>
             <div className=" border-t border-gray-300 p-2 rounded">
               <div className="flex gap-2">

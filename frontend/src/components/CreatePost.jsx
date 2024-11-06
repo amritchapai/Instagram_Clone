@@ -9,8 +9,10 @@ import { CrossCircledIcon } from "@radix-ui/react-icons";
 import axios from "axios";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const CreatePost = ({ open, setOpen }) => {
+  const navigate = useNavigate();
   const [caption, setCaption] = useState("");
   const [image, setImage] = useState("");
   const [preview, setPreview] = useState("");
@@ -59,6 +61,11 @@ const CreatePost = ({ open, setOpen }) => {
       if (res.data.success) {
         console.log(res.data.message);
         toast.success(res.data.message);
+        setOpen(false);
+        setImage("");
+        setCaption("");
+        setPreview("");
+
       }
     } catch (error) {
       console.log(error);

@@ -18,7 +18,7 @@ export const addPost = async (req, res) => {
     //image upload garna ko lagi
     //for image optimization we use sharp
     const optimizedImage = await sharp(image.buffer)
-      .resize({ width: 800, height: 8000, fit: "inside" })
+      .resize({ width: 800, height: 800, fit: "inside" })
       .toFormat("jpeg", { quality: 80 })
       .toBuffer();
     //buffer bata dataUri ma change gareko

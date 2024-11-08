@@ -4,9 +4,9 @@ import { addComment, deleteComment, editComment, likeUnlikeComment } from "../co
 
 const router = express.Router();
 
-router.post("/addComment", authentication, addComment);
-router.post("/likeUnlikeComment", authentication, likeUnlikeComment);
-router.delete("/deleteComment", authentication, deleteComment);
-router.post("/editComment", authentication, editComment)
+router.post("/addComment/:id", authentication, addComment);
+router.post("/likeUnlikeComment/:id", authentication, likeUnlikeComment);
+router.delete("/deleteComment/:id", authentication, deleteComment);
+router.post("/editComment/:id", authentication, editComment)
 
 export default router;

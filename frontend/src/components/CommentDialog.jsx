@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { Dialog, DialogTrigger, DialogContent } from "./ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "./ui/button";
 import CommentCard from "./commentCard";
+import axios from "axios";
+import { toast } from "sonner";
+
 
 const CommentDialog = ({ open, setOpen, post }) => {
+  
   const[comment, setComment] = useState("");
   const changeEventHandler = (e)=>{
     const obtainedComment = e.target.value;
@@ -16,6 +20,29 @@ const CommentDialog = ({ open, setOpen, post }) => {
     }
     else{
       setComment("")
+    }
+  }
+
+
+  const commentHandler = async () =>{
+    try {
+      const res = await axios.post(`http://localhost:8000/addComment/${post._id}`, {
+        description: comment
+      },
+    {
+      headers:{
+        "Content-Type": "application/json"
+      },
+      withCredentials: true
+    });
+    if(res.data.success){
+      console.log(res.data.message);
+      toast.success(res.data.message);
+      setComment("");
+
+    }
+    } catch (error) {
+      toast.error(error.response?.data?.message);
     }
   }
   return (
@@ -67,7 +94,7 @@ const CommentDialog = ({ open, setOpen, post }) => {
             
             <div className="flex-1 overflow-y-auto  max-h-96 p-4">
               {
-                [1,2,3,4,5,6,7].map((comment, index)=> <CommentCard key={index}/>)
+                post.comments.map((comment)=> <CommentCard key={comment._id} comment={comment}/>)
               }
             </div>
             <div className=" border-t border-gray-300 p-2 rounded">
@@ -82,7 +109,7 @@ const CommentDialog = ({ open, setOpen, post }) => {
                 ></input>
                 {comment ? (
                   <div>
-                    <Button
+                    <Button onClick = {commentHandler}
                       variant="ghost"
                       className="rounded text-blue-600 hover:text-black border-none outline-none  hover:bg-transparent"
                     >

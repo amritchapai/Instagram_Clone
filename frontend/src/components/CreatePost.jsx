@@ -61,6 +61,7 @@ const CreatePost = ({ open, setOpen }) => {
       if (res.data.success) {
         console.log(res.data.message);
         toast.success(res.data.message);
+        navigate("/")
         setOpen(false);
         setImage("");
         setCaption("");

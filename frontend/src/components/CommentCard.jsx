@@ -2,7 +2,7 @@ import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Heart } from "lucide-react";
 
-const CommentCard = () => {
+const CommentCard = ({comment}) => {
   return (
     <div className="flex items-center gap-3 mb-7">
       <div className="self-start">
@@ -15,12 +15,7 @@ const CommentCard = () => {
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <p>
-              <span className="mr-2 font-semibold">Username</span>Lorem ipsum
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
-              quia sunt commodi adipisci nemo, magnam obcaecati dolore sapiente
-              sed mollitia reprehenderit suscipit aperiam nesciunt pariatur,
-              saepe labore distinctio maxime hic quae explicabo voluptate quasi.
-              Sunt. dolor sit and also how are you.
+              <span className="mr-2 font-semibold">{comment.writer.username}</span>{comment.description}
             </p>
           </div>
           <div>

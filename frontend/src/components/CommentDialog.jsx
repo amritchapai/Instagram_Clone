@@ -65,8 +65,10 @@ const CommentDialog = ({ open, setOpen, post }) => {
               </Dialog>
             </div>
             
-            <div className="flex-1 overflow-y-auto max-h-96 p-4">
-              <CommentCard/>
+            <div className="flex-1 overflow-y-auto  max-h-96 p-4">
+              {
+                [1,2,3,4,5,6,7].map((comment, index)=> <CommentCard key={index}/>)
+              }
             </div>
             <div className=" border-t border-gray-300 p-2 rounded">
               <div className="flex gap-2">

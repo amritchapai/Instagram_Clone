@@ -9,9 +9,11 @@ const Home = () => {
   useGetAllPosts();
   return (
     <div className="flex">
-      <div className="flex-grow">
-        <Feed />
-        <Outlet/>
+      <div className=" flex flex-grow">
+        <div className="w-[100%]">
+          <Feed />
+          <Outlet />
+        </div>
       </div>
       <RightSideBar />
     </div>

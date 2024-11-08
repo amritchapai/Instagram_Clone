@@ -72,7 +72,7 @@ const LeftSideBar = () => {
         if(res.data.success){
           toast.success(res.data.message);
           navigate("/login");
-          dispatch(setAuthUser(""))
+          dispatch(setAuthUser(null))
         }
       } catch (error) {
         console.log(error);

@@ -23,7 +23,7 @@ const Login=() => {
 
   const loginHandler = async (e) => {
     e.preventDefault();
-    console.log(input);
+    // console.log(input);
     try {
       setLoading(true);
       const res = await axios.post("http://localhost:8000/login", input, {
@@ -42,7 +42,7 @@ const Login=() => {
         });
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error(error.response?.data?.message);
     } finally {
       setLoading(false);

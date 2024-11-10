@@ -36,7 +36,7 @@ const CommentDialog = ({ open, setOpen, post }) => {
       withCredentials: true
     });
     if(res.data.success){
-      console.log(res.data.message);
+      // console.log(res.data.message);
       toast.success(res.data.message);
       setComment("");
 

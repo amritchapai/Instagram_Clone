@@ -206,7 +206,7 @@ export const suggestedUser = async(req, res)=>{
     //if array is empty then first item is not there 
     if (users[0] == null) {
       return res.status(400).json({
-        message: "there are no suggested users to show",
+        message: "There are no suggested users to show",
         success: false,
       });
     }

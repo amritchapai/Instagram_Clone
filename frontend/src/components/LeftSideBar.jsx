@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { setAuthUser } from "@/redux/authSlice";
 import { useDispatch } from "react-redux";
 import CreatePost from "./CreatePost";
+import { setPost } from "@/redux/postSlice";
 
 const sideBarItems = [
   {
@@ -72,7 +73,8 @@ const LeftSideBar = () => {
         if(res.data.success){
           toast.success(res.data.message);
           navigate("/login");
-          dispatch(setAuthUser(null))
+          dispatch(setAuthUser(null));
+          dispatch(setPost([]));
         }
       } catch (error) {
         console.log(error);

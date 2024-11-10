@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { Bookmark, MessageCircle, MoreHorizontal, Send } from "lucide-react";
 import { Button } from "./ui/button";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
 import CommentDialog from "./CommentDialog";
 
 const Post = ({post}) => {
@@ -12,7 +12,7 @@ const Post = ({post}) => {
   const changeEventHandler = (e) => {
     const writtenText = e.target.value;
     const withoutSpace = writtenText.trim();
-    console.log(writtenText)
+    // console.log(writtenText)
     if (withoutSpace) {
       setComment(writtenText);
     } else {

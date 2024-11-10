@@ -2,8 +2,10 @@ import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import FollowCard from "./FollowCard";
 import { Copyright } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const RightSideBar = () => {
+  const { users } = useSelector((store) => store.allUser);
   return (
     <div className="fixed right-0 w-[25%] mt-[5.5%] hidden md:flex md:flex-col pr-[7%] gap-3">
       <div className="flex flex-row w-full justify-between">
@@ -22,8 +24,8 @@ const RightSideBar = () => {
         <span className="text-gray-500">Suggested </span>
         <span className="cursor-pointer">See All</span>
       </div>
-      {[1, 2, 3, 4, 5].map((item, index) => (
-        <FollowCard key={index} />
+      {users.slice(0, 5).map((user) => (
+        <FollowCard key={user._id} user={user} users = {users}/>
       ))}
       <div className="flex mt-6 gap-1 text-xs text-gray-400 flex-wrap">
         <span className="cursor-pointer hover:underline">About </span>

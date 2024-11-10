@@ -6,15 +6,20 @@ import Login from './components/Login'
 import { Route } from 'lucide-react'
 import Home from './components/Home'
 import MainLayout from './components/MainLayout'
+import Suggested from './components/Suggested'
 
 const browserRouter = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout/>,
+    element: <MainLayout />,
     children: [
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/suggested",
+        element: <Suggested />,
       },
     ],
   },
@@ -26,7 +31,7 @@ const browserRouter = createBrowserRouter([
     path: "/signup",
     element: <Signup />,
   },
-])
+]);
 
 function App() {
   return (

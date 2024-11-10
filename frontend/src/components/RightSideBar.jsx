@@ -3,9 +3,20 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import FollowCard from "./FollowCard";
 import { Copyright } from "lucide-react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const RightSideBar = () => {
   const { users } = useSelector((store) => store.allUser);
+  const navigate = useNavigate();
+
+  const seeAllHandler = () =>{
+    navigate("/suggested", {
+      state:{
+      users: users
+      }
+    });
+  }
+
   return (
     <div className="fixed right-0 w-[25%] mt-[5.5%] hidden md:flex md:flex-col pr-[7%] gap-3">
       <div className="flex flex-row w-full justify-between">
@@ -22,10 +33,10 @@ const RightSideBar = () => {
       </div>
       <div className="flex items-center justify-between mt-5">
         <span className="text-gray-500">Suggested </span>
-        <span className="cursor-pointer">See All</span>
+        <span className="cursor-pointer" onClick={seeAllHandler}>See All</span>
       </div>
       {users.slice(0, 5).map((user) => (
-        <FollowCard key={user._id} user={user} users = {users}/>
+        <FollowCard key={user._id} user={user}/>
       ))}
       <div className="flex mt-6 gap-1 text-xs text-gray-400 flex-wrap">
         <span className="cursor-pointer hover:underline">About </span>

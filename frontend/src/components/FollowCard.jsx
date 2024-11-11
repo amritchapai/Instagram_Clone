@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 
 const FollowCard = ({user}) => {
+  const [follow, setFollow] =  useState(false)
+
+  const followHandler = ()=>{
+    setFollow(prev => !prev);
+  }
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2">
@@ -11,7 +17,13 @@ const FollowCard = ({user}) => {
         </Avatar>
         <span className="font-semibold cursor-pointer">{user.username}</span>
       </div>
-      <span className='cursor-pointer'>Follow</span>
+      <span className="cursor-pointer" onClick={followHandler}>
+        {follow ? (
+          <>Following</>
+        ) : (
+          <>Follow</>
+        )}
+      </span>
     </div>
   );
 }

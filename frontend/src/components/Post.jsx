@@ -5,9 +5,9 @@ import { Bookmark, MessageCircle, MoreHorizontal, Send } from "lucide-react";
 import { Button } from "./ui/button";
 import { FaRegHeart } from "react-icons/fa";
 import CommentDialog from "./CommentDialog";
+import { useSelector } from "react-redux";
 
-const Post = ({post}) => {
-   const [open, setOpen] = useState(false);
+const Post = ({post}) => {   const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
   const changeEventHandler = (e) => {
     const writtenText = e.target.value;
@@ -28,29 +28,29 @@ const Post = ({post}) => {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <h1 className="font-medium ">{post.owner.username}</h1>
-          <Dialog>
-            <DialogTrigger asChild>
-              <MoreHorizontal className="cursor-pointer" />
-            </DialogTrigger>
-            <DialogContent className="flex flex-col items-center text-sm text-center">
-              <Button
-                variant="ghost"
-                className="cursor-pointer w-fit text-[#ED4956] font-bold"
-              >
-                Unfollow
-              </Button>
-              <Button variant="ghost" className="cursor-pointer w-fit">
-                Add to favourites
-              </Button>
-              <Button variant="ghost" className="cursor-pointer w-fit">
-                Delete
-              </Button>
-            </DialogContent>
-          </Dialog>
         </div>
+        <Dialog>
+          <DialogTrigger asChild>
+            <MoreHorizontal className="cursor-pointer" />
+          </DialogTrigger>
+          <DialogContent className="flex flex-col items-center text-sm text-center">
+            <Button
+              variant="ghost"
+              className="cursor-pointer w-fit text-[#ED4956] font-bold"
+            >
+              Unfollow
+            </Button>
+            <Button variant="ghost" className="cursor-pointer w-fit">
+              Add to favourites
+            </Button>
+            <Button variant="ghost" className="cursor-pointer w-fit">
+              Delete
+            </Button>
+          </DialogContent>
+        </Dialog>
       </div>
       <img
-        className="rounded-sm my-2 w-full aspect-square object-cover"
+        className="rounded-sm my-2 w-full aspect-square object-contain"
         src={post.photo}
         alt="image1"
       />
@@ -80,7 +80,7 @@ const Post = ({post}) => {
       >
         View all 10 comments
       </span>
-      <CommentDialog open={open} setOpen= {setOpen} post={post} />
+      <CommentDialog open={open} setOpen={setOpen} post={post} />
       <div className="flex mr-2">
         <input
           type="text"

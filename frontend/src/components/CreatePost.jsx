@@ -10,8 +10,13 @@ import axios from "axios";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setPost } from "@/redux/postSlice";
 
 const CreatePost = ({ open, setOpen }) => {
+  const { posts } = useSelector((store) => store.post);
+  const { user } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [caption, setCaption] = useState("");
   const [image, setImage] = useState("");
@@ -59,14 +64,14 @@ const CreatePost = ({ open, setOpen }) => {
       );
 
       if (res.data.success) {
+        dispatch(setPost([res.data.post, ...posts]))
         console.log(res.data.message);
         toast.success(res.data.message);
-        navigate("/")
+        navigate("/");
         setOpen(false);
         setImage("");
         setCaption("");
         setPreview("");
-
       }
     } catch (error) {
       console.log(error);
@@ -87,10 +92,10 @@ const CreatePost = ({ open, setOpen }) => {
         <hr className="bg-red-500" />
         <div className="flex gap-2 padding-2 items-center">
           <Avatar>
-            <AvatarImage src="" />
+            <AvatarImage src={user.profilePicture} />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <span className="font-semibold text-sm">Username</span>
+          <span className="font-semibold text-sm">{user.username}</span>
         </div>
         <hr className="bg-red-600" />
         <Textarea

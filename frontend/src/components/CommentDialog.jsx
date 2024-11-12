@@ -10,7 +10,6 @@ import { toast } from "sonner";
 
 
 const CommentDialog = ({ open, setOpen, post }) => {
-  
   const[comment, setComment] = useState("");
   const changeEventHandler = (e)=>{
     const obtainedComment = e.target.value;
@@ -37,6 +36,7 @@ const CommentDialog = ({ open, setOpen, post }) => {
     });
     if(res.data.success){
       // console.log(res.data.message);
+
       toast.success(res.data.message);
       setComment("");
 

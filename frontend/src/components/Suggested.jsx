@@ -1,7 +1,5 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Button } from './ui/button';
 import SuggestedCard from './SuggestedCard';
 
 const Suggested = () => {

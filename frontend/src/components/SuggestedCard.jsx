@@ -1,8 +1,14 @@
-import React from 'react'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Button } from './ui/button';
+import React, { useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Button } from "./ui/button";
 
-const SuggestedCard = ({user}) => {
+const SuggestedCard = ({ user }) => {
+  const [follow, setFollow] = useState(false);
+
+  const followHandler = () => {
+    setFollow((prev) => !prev);
+  };
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2">
@@ -16,9 +22,14 @@ const SuggestedCard = ({user}) => {
           <span className="text-gray-500 font-light"> Followed by </span>
         </div>
       </div>
-      <Button className="bg-blue-400 rounded-lg w-fit h-fit hover:bg-blue-600">Follow</Button>
+      <Button
+        className="bg-blue-400 rounded-lg w-fit h-fit hover:bg-blue-600"
+        onClick={followHandler}
+      >
+        {follow ? <>Following</> : <>Follow</>}
+      </Button>
     </div>
   );
-}
+};
 
-export default SuggestedCard
+export default SuggestedCard;

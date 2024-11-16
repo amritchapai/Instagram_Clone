@@ -12,7 +12,7 @@ const Home = () => {
   return (
     <div className="flex">
       <div className=" flex flex-grow">
-        <div className="w-[100%]">
+        <div className="w-full">
           <Feed />
           <Outlet />
         </div>

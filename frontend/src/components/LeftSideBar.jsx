@@ -16,6 +16,7 @@ import { setAuthUser } from "@/redux/authSlice";
 import { useDispatch } from "react-redux";
 import CreatePost from "./CreatePost";
 import { setPost } from "@/redux/postSlice";
+import { useSelector } from "react-redux";
 
 const sideBarItems = [
   {
@@ -58,6 +59,7 @@ const sideBarItems = [
 ];
 
 const LeftSideBar = () => {
+  const {user} = useSelector((store) => store.auth);
   const [open, setOpen] = useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -83,6 +85,13 @@ const LeftSideBar = () => {
     }
     else if(text === "Create"){
       setOpen(true);
+    }
+    else if(text === "Profile"){
+      navigate(`/profile/${user.username}`, {
+        state:{
+          user: user
+        }
+      })
     }
   };
   return (

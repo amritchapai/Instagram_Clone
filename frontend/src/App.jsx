@@ -22,6 +22,10 @@ const browserRouter = createBrowserRouter([
         path: "/suggested",
         element: <Suggested />,
       },
+      {
+        path: "/profile/:username",
+        element: <Profile />,
+      },
     ],
   },
   {
@@ -32,10 +36,6 @@ const browserRouter = createBrowserRouter([
     path: "/signup",
     element: <Signup />,
   },
-  {
-    path: "/profile/:username",
-    element : <Profile/>
-  }
 ]);
 
 function App() {

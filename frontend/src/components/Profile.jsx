@@ -10,7 +10,7 @@ const Profile = () => {
   const user = location.state.user;
   console.log(user);
   return (
-    <div className="absolute left-[28%] bg-yellow-200 mt-16 mr-20 w-[calc(100%-33%-90px)]">
+    <div className="absolute left-[25%] mt-16 mr-20 w-[calc(100%-25%-90px)]">
       <div className="flex gap-20 ml-16">
         <Avatar className="sm:h-24 sm:w-24 md:h-36 md:w-36 lg:h-45 lg:w-45 cursor-pointer">
           <AvatarImage src="" />
@@ -53,9 +53,9 @@ const Profile = () => {
           </Button>
         </div>
       </div>
-      <div className="flex flex-wrap gap-1">
+      <div className="flex flex-wrap w-full m-0">
         {
-          [1,2,3].map((item, index) => <SquarePosts key={index}/>)
+          [1,2,3,4,5].map((item, index) => <SquarePosts key={index}/>)
         }
       </div>
     </div>

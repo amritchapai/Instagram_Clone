@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { SettingsIcon } from "lucide-react";
 import SquarePosts from "./SquarePosts";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
   const location = useLocation();
@@ -13,12 +14,12 @@ const Profile = () => {
     <div className="absolute left-[25%] mt-16 mr-20 w-[calc(100%-25%-90px)]">
       <div className="flex gap-20 ml-16">
         <Avatar className="sm:h-24 sm:w-24 md:h-36 md:w-36 lg:h-45 lg:w-45 cursor-pointer">
-          <AvatarImage src="" />
+          <AvatarImage src={user.profilePicture} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <div className="flex flex-col gap-4">
           <div className="flex gap-6 items center">
-            <span className="text-lg cursor-pointer">Username</span>
+            <span className="text-lg cursor-pointer">{user.username}</span>
             <div className="flex gap-2">
               <Button className="h-8 cursor-pointer bg-[#8b8989] text-white hover:bg-[#767575]">
                 Edit Profile
@@ -30,7 +31,7 @@ const Profile = () => {
             </div>
           </div>
           <div className="flex gap-10">
-            <span>4 posts</span>
+            <span>{user.posts.length} Posts</span>
             <span>345 followers</span>
             <span>489 following</span>
           </div>
